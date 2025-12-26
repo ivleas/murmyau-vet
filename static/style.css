@@ -1,0 +1,286 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Фон с животными */
+body {
+    background: url('/static/animals-bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #2c2c2c;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Контейнер поверх фона */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    backdrop-filter: blur(1px);
+}
+
+/* ОГРОМНЫЙ заголовок */
+h1 {
+    text-align: center;
+    color: #e91e63;
+    margin-bottom: 25px;
+    font-size: 3.2rem; /* ~48px */
+    font-weight: 800;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    letter-spacing: -0.5px;
+}
+
+/* Подзаголовки */
+h2 {
+    margin: 22px 0 16px;
+    color: #5a5a5a;
+    font-size: 1.4rem;
+}
+
+/* Поле выбора услуги — стильная кнопка/селект */
+select[name="service"] {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    border: 2px solid #e91e63;
+    border-radius: 12px;
+    font-size: 16px;
+    background-color: #fdf2f8;
+    color: #e91e63;
+    font-weight: 600;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e91e63' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    cursor: pointer;
+}
+
+select[name="service"]:focus {
+    outline: none;
+    border-color: #d81b60;
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.2);
+}
+
+/* Остальные поля */
+input[type="text"],
+input[type="date"] {
+    width: 100%;
+    padding: 12px;
+    margin: 6px 0;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+/* Кнопка отправки */
+.form-box button {
+    background: linear-gradient(135deg, #e91e63, #d81b60);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 12px;
+    transition: transform 0.2s, background 0.3s;
+}
+
+.form-box button:hover {
+    background: linear-gradient(135deg, #d81b60, #c2185b);
+    transform: translateY(-2px);
+}
+
+/* Уведомления */
+.alert {
+    padding: 14px;
+    margin-bottom: 22px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+.alert.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.alert.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Карточки заявок */
+.appointment-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 18px;
+    border-radius: 14px;
+    background: #fdf9fb;
+    border: 1px solid #f0e6ed;
+}
+
+/* Кнопки действий */
+.btn-delete, .btn-reschedule {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-delete {
+    background: #ff6b6b;
+    color: white;
+}
+.btn-reschedule {
+    background: #4caf50;
+    color: white;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.4rem; /* ~36px */
+    }
+    .container {
+        padding: 20px;
+        border-radius: 16px;
+    }
+}
+.btn-delete {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.btn-reschedule {
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Для кнопки "Перенести" */
+input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    margin: 4px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* Статистика */
+.stats {
+    text-align: center;
+    background: #f0f8ff;
+    padding: 12px;
+    border-radius: 10px;
+    margin: 15px 0;
+    font-weight: 600;
+    color: #2c6cb0;
+}
+
+/* Срочность заявок */
+.appointment-card.today {
+    border-left: 5px solid #4caf50;
+    background-color: #f1f8e9;
+}
+.appointment-card.tomorrow {
+    border-left: 5px solid #ff9800;
+    background-color: #fff3e0;
+}
+.appointment-card.past {
+    border-left: 5px solid #f44336;
+    background-color: #ffebee;
+}
+
+/* Кнопка "на сегодня" */
+.btn-today {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.btn-today:hover {
+    opacity: 0.9;
+}
+/* Срочная запись */
+.form-box.urgent {
+    border: 2px solid #ff9800;
+    background-color: #fff8e1;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 25px;
+}
+.form-box.urgent h2 {
+    color: #e65100;
+    text-align: center;
+}
+.btn-today {
+    background: linear-gradient(135deg, #d32f2f, #b71c1c);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.btn-today:hover {
+    opacity: 0.9;
+}
+/* Поле примечаний — красивое и удобное */
+textarea[name="notes"] {
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 15px;
+    min-height: 100px;
+    resize: vertical;
+    font-family: inherit;
+    background-color: #fafafa;
+    transition: all 0.3s ease;
+}
+
+textarea[name="notes"]:focus {
+    outline: none;
+    border-color: #e91e63;
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.15);
+    background-color: #fff9fb;
+}
+
+/* Красивый placeholder */
+textarea[name="notes"]::placeholder {
+    color: #9e9e9e;
+    font-style: italic;
+    opacity: 1; /* Firefox fix */
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Ветклиника «Мурмяу» 🐾</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        {% if msg == "not_found" %}
+            <div class="alert error">⚠️ Заявка не найдена. Возможно, она уже удалена.</div>
+        {% elif msg == "added" %}
+            <div class="alert success">✅ Запись успешно добавлена!</div>
+        {% elif msg == "deleted" %}
+            <div class="alert success">🗑️ Запись удалена!</div>
+        {% elif msg == "rescheduled" %}
+            <div class="alert success">🔄 Запись перенесена!</div>
+        {% elif msg == "past_date" %}
+            <div class="alert error">❌ Нельзя записываться на прошедшие даты!</div>
+        {% endif %}
+
+        <h1>🏥 Ветеринарная клиника «Мурмяу»</h1>
+
+        <!-- Умная статистика -->
+        <div class="stats">
+            {% if today_count == 0 %}
+                📅 На сегодня нет записей
+            {% else %}
+                📅 Сегодня записано: <strong>{{ today_count }}
+                {% if today_count == 1 %}питомец{% elif today_count in (2,3,4) %}питомца{% else %}питомцев{% endif %}
+                </strong>
+            {% endif %}
+        </div>
+
+        <div class="form-box">
+            <h2>➕ Добавить новую заявку</h2>
+            <form method="post" action="/add">
+                <input type="text" name="pet_name" placeholder="Имя питомца" required>
+                <input type="text" name="owner_name" placeholder="Ваше имя" required>
+                <label>Услуга:
+                    <select name="service" required>
+                        <option value="">— Выберите —</option>
+                        <option value="Осмотр">Осмотр</option>
+                        <option value="Вакцинация">Вакцинация</option>
+                        <option value="Стрижка когтей">Стрижка когтей</option>
+                        <option value="Чипирование">Чипирование</option>
+                        <option value="Кастрация/стерилизация">Кастрация/стерилизация</option>
+                        <option value="Лечение">Лечение</option>
+                    </select>
+                </label>
+                <input type="date" name="appointment_date" min="{{ today_str }}" required>
+                <textarea name="notes" placeholder="Примечания (аллергии, характер, особенности...)"></textarea>
+                <button type="submit">Записать на выбранную дату</button>
+            </form>
+        </div>
+
+        <!-- Срочная запись на сегодня -->
+        <div class="form-box urgent">
+            <h2>⚡ Срочная запись на сегодня</h2>
+            <form method="post" action="/add-today">
+                <input type="text" name="pet_name" placeholder="Имя питомца" required style="width: 48%;">
+                <input type="text" name="owner_name" placeholder="Ваше имя" required style="width: 48%;">
+                <select name="service" required style="width: 100%; margin-top: 8px;">
+                    <option value="">— Срочная услуга —</option>
+                    <option value="Осмотр">Осмотр</option>
+                    <option value="Вакцинация">Вакцинация</option>
+                    <option value="Стрижка когтей">Стрижка когтей</option>
+                    <option value="Лечение">Лечение (срочно!)</option>
+                </select>
+                <textarea name="notes" placeholder="Особенности (срочно!)" style="width: 100%; margin-top: 8px;"></textarea>
+                <button type="submit" class="btn-today">🚨 Записать на СЕГОДНЯ</button>
+            </form>
+        </div>
+
+        <h2>📋 Список заявок</h2>
+        {% if appointments %}
+            <div class="appointments">
+                {% for app in appointments %}
+                <div class="appointment-card">
+                    <div class="info">
+                        <div class="pet-info">
+                            <strong>{{ app.pet_name }}</strong> ({{ app.owner_name }})
+                        </div>
+                        <div class="service">Услуга: {{ app.service }}</div>
+                        <div class="date">Дата: {{ app.appointment_date }}</div>
+
+                        {% if app.notes %}
+                        <div class="notes">
+                            <details>
+                                <summary>📋 Примечания</summary>
+                                <div class="notes-content">
+                                    {{ app.notes | replace("\n", "<br>") | safe }}
+                                </div>
+                            </details>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="actions">
+                        <form method="post" action="/delete/{{ app.id }}" onsubmit="return confirm('Удалить запись?')">
+                            <button type="submit" class="btn-delete">🗑️ Удалить</button>
+                        </form>
+                        <form method="post" action="/reschedule/{{ app.id }}" style="margin-top: 6px;">
+                            <input type="date" name="new_date" min="{{ today_str }}" required>
+                            <button type="submit" class="btn-reschedule"
+                                    onclick="if(!this.form.new_date.value){alert('Выберите дату!');return false;}">
+                                🔄 Перенести
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty">Нет заявок. Будьте первым! 😺</p>
+        {% endif %}
+    </div>
+</body>
+</html>
